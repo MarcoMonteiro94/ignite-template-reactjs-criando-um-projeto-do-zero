@@ -1,1 +1,26 @@
-// TODO
+.banner {
+  margin-bottom: 40px;
+
+  img {
+    width: 100%;
+  }
+}
+
+.content {
+  font-weight: bold;
+  font-size: 18px;
+  line-height: 25.2px;
+  text-align: justify;
+
+  h2 {
+    font-size: 36px;
+    line-height: 140%;
+    margin: 40px 0;
+  }
+
+  p,
+  li {
+    font-weight: 400;
+    margin: 15px 0;
+  }
+}

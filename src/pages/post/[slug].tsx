@@ -5,6 +5,7 @@ import { format } from 'date-fns';
 import ptBR from 'date-fns/locale/pt-BR';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+import { FiCalendar, FiUser, FiClock } from 'react-icons/fi';
 import { getPrismicClient } from '../../services/prismic';
 import commonStyles from '../../styles/common.module.scss';
 import styles from './post.module.scss';
@@ -59,24 +60,32 @@ export default function Post({ post }: PostProps): JSX.Element {
   }, [post, router.isFallback]);
 
   return (
-    <main>
+    <>
       {loading ?? <p>{loading}</p>}
       {post && (
-        <div>
-          <a>
+        <>
+          <div className={styles.banner}>
+            <img src={post.data.banner.url} alt={post.data.title} />
+          </div>
+          <div className={commonStyles.container}>
             <h1>{post.data.title}</h1>
-            <div>
+            <div className={commonStyles.infoWrapper}>
               <time>
+                <FiCalendar />
                 {format(new Date(post.first_publication_date), 'dd MMM yyy', {
                   locale: ptBR,
                 })}
               </time>
-              <p>{post.data.author}</p>
-              <p>{timeToRead}</p>
+              <p>
+                <FiUser /> {post.data.author}
+              </p>
+              <p>
+                <FiClock /> {timeToRead}
+              </p>
             </div>
             {contentBody.map(content => {
               return (
-                <div key={content.heading}>
+                <div key={content.heading} className={styles.content}>
                   <h2>{content.heading}</h2>
                   <div
                     // eslint-disable-next-line react/no-danger
@@ -87,10 +96,10 @@ export default function Post({ post }: PostProps): JSX.Element {
                 </div>
               );
             })}
-          </a>
-        </div>
+          </div>
+        </>
       )}
-    </main>
+    </>
   );
 }
 

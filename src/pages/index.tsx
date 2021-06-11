@@ -4,6 +4,7 @@ import { format } from 'date-fns';
 import ptBR from 'date-fns/locale/pt-BR';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
+import { FiCalendar, FiUser } from 'react-icons/fi';
 import { getPrismicClient } from '../services/prismic';
 import commonStyles from '../styles/common.module.scss';
 import styles from './home.module.scss';
@@ -60,30 +61,38 @@ export default function Home({ postsPagination }: HomeProps): JSX.Element {
   }
 
   return (
-    <main>
-      <div>
-        {posts.map(post => (
-          <Link href={`/post/${post.uid}`} key={post.uid}>
+    <main className={commonStyles.container}>
+      {posts.map(post => (
+        <div className={styles.postWrapper} key={post.uid}>
+          <Link href={`/post/${post.uid}`}>
             <a>
               <h1>{post.data.title}</h1>
-              <p>{post.data.subtitle}</p>
-              <div>
+              <h2>{post.data.subtitle}</h2>
+              <div className={commonStyles.infoWrapper}>
                 <time>
+                  <FiCalendar />
                   {format(new Date(post.first_publication_date), 'dd MMM yyy', {
                     locale: ptBR,
                   })}
                 </time>
-                <p>{post.data.author}</p>
+                <p>
+                  <FiUser />
+                  {post.data.author}
+                </p>
               </div>
             </a>
           </Link>
-        ))}
-        {nextPage && (
-          <button onClick={() => handleNextPage(nextPage)} type="button">
-            Carregar mais posts
-          </button>
-        )}
-      </div>
+        </div>
+      ))}
+      {nextPage && (
+        <button
+          className={styles.loadMore}
+          onClick={() => handleNextPage(nextPage)}
+          type="button"
+        >
+          Carregar mais posts
+        </button>
+      )}
     </main>
   );
 }
